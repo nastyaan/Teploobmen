@@ -1,0 +1,23 @@
+﻿@model List<InData>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Регистрация</h1>
+</div>
+
+<form action="/Login/Register/" method="post">
+    <div asp-validation-summary="All"></div>
+    <div class="input-group mb-1">
+        <span style="width: 80px" class="input-group-text">Логин</span>
+        <input type="text" name="login" class="form-control">
+    </div>
+    <div class="input-group mb-1">
+        <span style="width: 80px" class="input-group-text">Пароль</span>
+        <input name="password" type="password" class="form-control">
+    </div>
+    <div class="mb-2">
+        <input type="submit" value="Зарегестрироваться" />
+    </div>
+</form>

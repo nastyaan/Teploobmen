@@ -1,0 +1,45 @@
+﻿@model List<InData>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome, @(User.Identity?.Name ?? "guest")!</h1>
+</div>
+
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>Id</th>
+        <th>H0</th>
+        <th>t0</th>
+        <th>T0</th>
+        <th>wg</th>
+        <th>Cg</th>
+        <th>av</th>
+        <th>Cm</th>
+        <th>Gm</th>
+        <th>r</th>
+        <th>Дата</th>
+        <th></th>
+    </tr>
+    @foreach (var inputData in Model)
+    {
+        <tr>
+            <td>@inputData.Id</td>
+            <td>@inputData.H0</td>
+            <td>@inputData.t0_</td>
+            <td>@inputData.T_</td>
+            <td>@inputData.wg</td>
+            <td>@inputData.Cg</td>
+            <td>@inputData.av</td>
+            <td>@inputData.Cm</td>
+            <td>@inputData.Gm</td>
+            <td>@inputData.r</td>
+            <td>@inputData.DateAdd</td>
+            <td>
+                <a href ="/Home/TestPage/?variant=@inputData.Id">Открыть</a>
+                <a href="/Home/Delete/@inputData.Id">Удалить</a>
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,133 @@
+﻿@model TestPageModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-left">
+
+    <form action="/Home/TestPage/" method="post">
+        <div class="input-group mb-1">
+            <span style="width: 40px" class="input-group-text">H0</span>
+            <input type="text" name="H0" class="form-control" value="@Model?.InData?.H0">
+        </div>
+        <div class="input-group mb-1">
+            <span style="width: 40px" class="input-group-text">t0</span>
+            <input type="text" name="t0_" class="form-control" value="@Model?.InData?.t0_">
+        </div>
+        <div class="input-group mb-1">
+            <span style="width: 40px" class="input-group-text">T0</span>
+            <input type="text" name="T_" class="form-control" value="@Model?.InData?.T_">
+        </div>
+        <div class="input-group mb-1">
+            <span style="width: 40px" class="input-group-text">wg</span>
+            <input type="text" name="wg" class="form-control" value="@Model?.InData?.wg">
+        </div>
+        <div class="input-group mb-1">
+            <span style="width: 40px" class="input-group-text">Cg</span>
+            <input type="text" name="Cg" class="form-control" value="@Model?.InData?.Cg">
+        </div>
+        <div class="input-group mb-1">
+            <span style="width: 40px" class="input-group-text">av</span>
+            <input type="text" name="av" class="form-control" value="@Model?.InData?.av">
+        </div>
+        <div class="input-group mb-1">
+            <span style="width: 40px" class="input-group-text">Cm</span>
+            <input type="text" name="Cm" class="form-control" value="@Model?.InData?.Cm">
+        </div>
+        <div class="input-group mb-1">
+            <span style="width: 40px" class="input-group-text">Gm</span>
+            <input type="text" name="Gm" class="form-control" value="@Model?.InData?.Gm">
+        </div>
+        <div class="input-group mb-1">
+            <span style="width: 40px" class="input-group-text">r</span>
+            <input type="text" name="r" class="form-control" value="@Model?.InData?.r">
+        </div>
+        <div class="input-group mb-1">
+            <span style="width: 190px" class="input-group-text">name (для сохранения)</span>
+            <input type="text" name="name" class="form-control" value="">
+        </div>
+        <div class="mb-2">
+            <input type="submit" value="Сохранить" />
+        </div>
+
+        @if(Model?.OutputResData != null){
+            <table class="table table-hover table-bordered">
+                <tr>
+                    <td>y</td>
+                    @foreach (var number in Model.OutputResData?.Doublesy)
+                    {
+                        <td>@number</td>
+                    }
+                </tr>
+                <tr>
+                    <td>t</td>
+                    @foreach (var number in Model.OutputResData?.param1)
+                    {
+                        <td>@number</td>
+                    }
+                </tr>
+                <tr>
+                    <td>T</td>
+                    @foreach (var number in Model.OutputResData?.param2)
+                    {
+                        <td>@number</td>
+                    }
+                </tr>
+                <tr>
+                    <td>(t-T)</td>
+                    @foreach (var number in Model.OutputResData?.param3)
+                    {
+                        <td>@number</td>
+                    }
+                </tr>
+            </table>
+            <div>
+                <canvas id="myChart"></canvas>
+            </div>
+        }
+    </form>
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    @if (Model.OutputResData == null) return;
+    var labels = @Json.Serialize(Model.OutputResData.Doublesy)
+    var values1 = @Json.Serialize(Model.OutputResData.param1)
+    var values2 = @Json.Serialize(Model.OutputResData.param2)
+    var values3 = @Json.Serialize(Model.OutputResData.param3)
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'График t от y',
+                data: values1,
+                borderWidth: 1
+            },
+                {
+                label: 'График T от y',
+                data: values2,
+                borderWidth: 1
+            },
+                {
+                label: 'График(t-T) от y',
+                data: values3,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    title: { display: true, text: 'высота слоя' }
+                },
+                y: {
+                    title: { display: true, text: 'температура' }
+                }
+            }
+        }
+    });
+</script>
